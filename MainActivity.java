@@ -1,27 +1,24 @@
-package com.example.a11week_2autocomplete;
+package com.example.week12_adapterview_listview;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.Adapter;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.MultiAutoCompleteTextView;
+import android.widget.ListView;
 
 public class MainActivity extends AppCompatActivity {
-    AutoCompleteTextView singleauto;
-    MultiAutoCompleteTextView multiauto;
+    ListView list;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        list = findViewById(R.id.list);
         setContentView(R.layout.activity_main);
-        singleauto = findViewById(R.id.singleauto);
-        multiauto = findViewById(R.id.multiauto);
-        String[] str = new String[] {"shingu-professional","shingu_student","shingu_cafetarria","friday","friend","alpha","ufc"};
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_dropdown_item_1line,str);
-        singleauto.setAdapter(adapter);
-        MultiAutoCompleteTextView.CommaTokenizer token = new MultiAutoCompleteTextView.CommaTokenizer();
-        multiauto.setTokenizer(token);
-        multiauto.setAdapter(adapter);
+        String[] data ={"1","2","3","4","5"};
+        ArrayAdapter<String> adapter=
+                new ArrayAdapter<String>(MainActivity.this,
+                        android.R.layout.simple_list_item_1,data);
+        list.setAdapter(adapter);
     }
 }
