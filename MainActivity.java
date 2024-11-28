@@ -1,33 +1,36 @@
-package com.example.week12_adapter_gridview;
+package com.example.week12adapter_greidview2;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.helper.widget.Grid;
 
 import android.content.Context;
-import android.media.Image;
 import android.os.Bundle;
-import android.view.ContextThemeWrapper;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
+import android.widget.Gallery;
 import android.widget.ImageView;
 
+
 public class MainActivity extends AppCompatActivity {
-GridView grid;
-View dialog;
+    Gallery gallery;
+    ImageView ivPoster;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        grid = findViewById(R.id.grid);
-        GridAdapter adapter = new GridAdapter(MainActivity.this);
-        grid.setAdapter(adapter);
+        ivPoster = findViewById(R.id.ivPoster);
+        gallery = findViewById(R.id.gallery);
+        GlleryAdapter adapter = new GlleryAdapter(MainActivity.this);
+        gallery.setAdapter(adapter);
     }
-    class GridAdapter extends BaseAdapter{
+    public class GlleryAdapter extends BaseAdapter{
 
         Context context;
+        GlleryAdapter (Context c){
+            context = c;
+        }
+
         Integer[] postid = { // 이미지 리소스 ID 배열
                 R.drawable.mov01, R.drawable.mov02, R.drawable.mov03, R.drawable.mov04,
                 R.drawable.mov05, R.drawable.mov06, R.drawable.mov07, R.drawable.mov08,
@@ -36,50 +39,38 @@ View dialog;
                 R.drawable.mov17, R.drawable.mov18, R.drawable.mov19, R.drawable.mov20,
                 R.drawable.mov21, R.drawable.mov22, R.drawable.mov23, R.drawable.mov24
         };
-        public GridAdapter(Context contex){
-            this.context = contex;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            ImageView img = new ImageView(context);
-            img.setLayoutParams(new ViewGroup.LayoutParams(150,200));
-            img.setPadding(5,5,5,5);
-            img.setImageResource(postid[i]);
-            final int pos = i;
-
-            img.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dialog = View.inflate(MainActivity.this,R.layout.dialog,null);
-                    AlertDialog.Builder dlg = new AlertDialog.Builder(MainActivity.this);
-                    ImageView ivpost = dialog.findViewById(R.id.ivPost);
-                    ivpost.setImageResource(postid[pos]);
-                    dlg.setView(dialog);
-                    dlg.setNegativeButton("close",null);
-                    dlg.setPositiveButton("ok",null);
-                    dlg.setIcon(R.drawable.movie_icon);
-                    dlg.setTitle("big ima");
 
 
-                    dlg.show();
-                }
-            });
-
-            return img;
-        }
         @Override
         public int getCount() {
             return postid.length;
         }
+
         @Override
         public Object getItem(int i) {
             return null;
         }
+
         @Override
         public long getItemId(int i) {
             return 0;
         }
 
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            ImageView  img = new ImageView(MainActivity.this);
+            img.setLayoutParams(new Gallery.LayoutParams(200,300));
+            img.setScaleType(ImageView.ScaleType.CENTER);
+            img.setPadding(5,5,5,5);
+            img.setImageResource(postid[i]);
+            img.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    ivPoster.setImageResource(postid[i]);
+                    return false;
+                }
+            });
+            return img;
+        }
     }
 }
